@@ -56,6 +56,7 @@ import retrofit2.Response;
 
 public class Profile_Images extends AppCompatActivity {
 
+    //ImageView dummyImage;
    // CircleImageView profileImage;
     ImageView cnicImage,profileImage;
     Button btnNext;
