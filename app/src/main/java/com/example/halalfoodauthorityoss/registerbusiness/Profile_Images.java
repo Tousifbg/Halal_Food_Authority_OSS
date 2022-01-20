@@ -1,27 +1,17 @@
 package com.example.halalfoodauthorityoss.registerbusiness;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.Path;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -30,23 +20,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.example.halalfoodauthorityoss.BaseClass;
 import com.example.halalfoodauthorityoss.CoreActivity;
-import com.example.halalfoodauthorityoss.model.Model;
 import com.example.halalfoodauthorityoss.R;
-import com.squareup.picasso.Picasso;
+import com.example.halalfoodauthorityoss.model.Model;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -56,20 +41,27 @@ import retrofit2.Response;
 
 public class Profile_Images extends AppCompatActivity {
 
-    //ImageView dummyImage;
-   // CircleImageView profileImage;
-    ImageView cnicImage,profileImage;
+    ImageView cnicImage, profileImage;
     Button btnNext;
     EditText edtCNIC;
-    String selectedImagePath,selectedImagePath1;
-    File profileFile,cnicFile;
-    String imageone,imagetwo;
+    String selectedImagePath, selectedImagePath1;
+    File profileFile, cnicFile;
+    String imageone = "", imagetwo = "";
+
+    ProgressDialog progressDialog;
+
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_images);
-        
+
         initialization();
 
         profileImage.setOnClickListener(new View.OnClickListener() {
@@ -99,32 +91,31 @@ public class Profile_Images extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        profileImage=findViewById(R.id.profileImage);
-        cnicImage=findViewById(R.id.imgcnic);
-        btnNext=findViewById(R.id.btnNext);
-        edtCNIC=findViewById(R.id.edtcnic);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
+        profileImage = findViewById(R.id.profileImage);
+        cnicImage = findViewById(R.id.imgcnic);
+        btnNext = findViewById(R.id.btnNext);
+        edtCNIC = findViewById(R.id.edtcnic);
     }
 
     private void selectImage() {
-        final CharSequence[] options = { "Take from Camera", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = {"Take from Camera", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(Profile_Images.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take from Camera"))
-                {
+                if (options[item].equals("Take from Camera")) {
                     Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(takePicture, 0);
-                }
-                else if (options[item].equals("Choose from Gallery"))
-                {
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     pickPhoto.setType("image/*");
-                    startActivityForResult(pickPhoto , 1);
-                }
-                else if (options[item].equals("Cancel")) {
+                    startActivityForResult(pickPhoto, 1);
+                } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
             }
@@ -133,25 +124,21 @@ public class Profile_Images extends AppCompatActivity {
     }
 
     private void selectImage1() {
-        final CharSequence[] options = { "Take from Camera", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = {"Take from Camera", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(Profile_Images.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take from Camera"))
-                {
+                if (options[item].equals("Take from Camera")) {
                     Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(takePicture, 2);
-                }
-                else if (options[item].equals("Choose from Gallery"))
-                {
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     pickPhoto.setType("image/*");
-                    startActivityForResult(pickPhoto , 3);
-                }
-                else if (options[item].equals("Cancel")) {
+                    startActivityForResult(pickPhoto, 3);
+                } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
             }
@@ -162,45 +149,46 @@ public class Profile_Images extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch(requestCode) {
+        switch (requestCode) {
             case 0:
-                   if (requestCode == 0)
-                       if(resultCode == RESULT_OK) {
-                           {
-                               Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
-                               File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-                               final int min = 200000;
-                               final int max = 800000;
-                               final int random = new Random().nextInt((max - min) + 1) + min;
-                               String name = String.valueOf(random);
-                               try {
-                                   profileFile = File.createTempFile(
-                                           "PNG_",
-                                           ".png",
-                                           dir
-                                   );
-                               } catch (IOException e) {
-                                   e.printStackTrace();
-                               }
+                if (requestCode == 0)
+                    if (resultCode == RESULT_OK) {
+                        {
+                            Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
+                            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+                            final int min = 200000;
+                            final int max = 800000;
+                            final int random = new Random().nextInt((max - min) + 1) + min;
+                            String name = String.valueOf(random);
+                            try {
+                                profileFile = File.createTempFile(
+                                        "PNG_",
+                                        ".png",
+                                        dir
+                                );
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
-                               if (profileFile != null) {
-                                   FileOutputStream fout;
-                                   try {
-                                       fout = new FileOutputStream(profileFile);
-                                       photo.compress(Bitmap.CompressFormat.PNG, 100, fout);
-                                       fout.flush();
-                                   } catch (Exception e) {
-                                       e.printStackTrace();
-                                   }
-                                   Toast.makeText(this, "" + profileFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-                                   Toast.makeText(this, "" + profileFile.getName(), Toast.LENGTH_SHORT).show();
-                                   profileImage.setImageURI(Uri.parse(profileFile.getAbsolutePath()));
-                               }
-                           }
-                       }
+                            if (profileFile != null) {
+                                FileOutputStream fout;
+                                try {
+                                    fout = new FileOutputStream(profileFile);
+                                    photo.compress(Bitmap.CompressFormat.PNG, 100, fout);
+                                    fout.flush();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(this, "" + profileFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "" + profileFile.getName(), Toast.LENGTH_SHORT).show();
+                                profileImage.setImageURI(Uri.parse(profileFile.getAbsolutePath()));
+                                imageone = "imageone";
+                            }
+                        }
+                    }
                 break;
             case 1:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     if (requestCode == 1) {
                         Uri selectedImageUri = imageReturnedIntent.getData();
                         selectedImagePath = getRealPathFromURIForGallery(selectedImageUri);
@@ -226,45 +214,49 @@ public class Profile_Images extends AppCompatActivity {
                         Toast.makeText(this, "" + profileFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(this, "" + profileFile.getName(), Toast.LENGTH_SHORT).show();
                         profileImage.setImageURI(Uri.parse(profileFile.getAbsolutePath()));
+                        imageone = "imageone";
                     }
                 }
                 break;
             case 2:
                 if (requestCode == 2)
-                    if(resultCode == RESULT_OK){{
-                    Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
-                    File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-                    final int min = 200000;
-                    final int max = 800000;
-                    final int random = new Random().nextInt((max - min) + 1) + min;
-                    String name = String.valueOf(random);
-                    try {
-                        cnicFile = File.createTempFile(
-                                "PNG_",
-                                ".png",
-                                dir
-                        );
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    if (resultCode == RESULT_OK) {
+                        {
+                            Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
+                            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+                            final int min = 200000;
+                            final int max = 800000;
+                            final int random = new Random().nextInt((max - min) + 1) + min;
+                            String name = String.valueOf(random);
+                            try {
+                                cnicFile = File.createTempFile(
+                                        "PNG_",
+                                        ".png",
+                                        dir
+                                );
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
-                    if (cnicFile != null) {
-                        FileOutputStream fout;
-                        try {
-                            fout = new FileOutputStream(cnicFile);
-                            photo.compress(Bitmap.CompressFormat.PNG, 100, fout);
-                            fout.flush();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            if (cnicFile != null) {
+                                FileOutputStream fout;
+                                try {
+                                    fout = new FileOutputStream(cnicFile);
+                                    photo.compress(Bitmap.CompressFormat.PNG, 100, fout);
+                                    fout.flush();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(this, "" + cnicFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "" + cnicFile.getName(), Toast.LENGTH_SHORT).show();
+                                cnicImage.setImageURI(Uri.parse(cnicFile.getAbsolutePath()));
+                                imagetwo = "imagetwo";
+                            }
                         }
-                        Toast.makeText(this, "" + cnicFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(this, "" + cnicFile.getName(), Toast.LENGTH_SHORT).show();
-                        cnicImage.setImageURI(Uri.parse(cnicFile.getAbsolutePath()));
                     }
-                }}
                 break;
             case 3:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     if (requestCode == 3) {
                         Uri selectedImageUri = imageReturnedIntent.getData();
                         selectedImagePath1 = getRealPathFromURIForGallery(selectedImageUri);
@@ -290,9 +282,10 @@ public class Profile_Images extends AppCompatActivity {
                         Toast.makeText(this, "" + cnicFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(this, "" + cnicFile.getName(), Toast.LENGTH_SHORT).show();
                         cnicImage.setImageURI(Uri.parse(cnicFile.getAbsolutePath()));
+                        imagetwo = "imagetwo";
                     }
                 }
-             break;
+                break;
         }
     }
 
@@ -316,8 +309,8 @@ public class Profile_Images extends AppCompatActivity {
 
     private void uploadFile() {
 
-        if (!profileFile.equals("") || !cnicFile.equals(""))
-        {
+        if (!imageone.equals("") && !imagetwo.equals("")) {
+            progressDialog.show();
             File PROFILEImage = new File(profileFile.getAbsolutePath());
             File CNICImage = new File(cnicFile.getAbsolutePath());
             RequestBody requestBodyPROFILE = RequestBody.create(MediaType.parse("multipart/form-data"), PROFILEImage);
@@ -325,43 +318,51 @@ public class Profile_Images extends AppCompatActivity {
             MultipartBody.Part profileimageFile = MultipartBody.Part.createFormData("profile_image", PROFILEImage.getName(), requestBodyPROFILE);
             MultipartBody.Part cnicimageFile = MultipartBody.Part.createFormData("cnic_image", CNICImage.getName(), requestBodyCNIC);
 
+            int BID= Integer.parseInt(getIntent().getStringExtra("categoryid"));
+            int DID= Integer.parseInt(getIntent().getStringExtra("districtid"));
+            double Lat= Double.parseDouble(getIntent().getStringExtra("latitude"));
+            double Long= Double.parseDouble(getIntent().getStringExtra("longitude"));
+
             Call<Model> call = BaseClass
                     .getInstance()
                     .getApi()
-                    .Add_Owner(getIntent().getStringExtra("name"),getIntent().getStringExtra("fathername"),getIntent().getStringExtra("cnic"),
-                            getIntent().getStringExtra("contact"),profileimageFile,getIntent().getStringExtra("businessaddress"),
+                    .Add_Owner(getIntent().getStringExtra("name"), getIntent().getStringExtra("fathername"), getIntent().getStringExtra("cnic"),
+                            getIntent().getStringExtra("contact"), profileimageFile, getIntent().getStringExtra("businessaddress"),
                             getIntent().getStringExtra("Businessname")
-                            ,getIntent().getStringExtra("categoryid"),getIntent().getStringExtra("latitude"),getIntent().getStringExtra("longitude"),cnicimageFile,"male",getIntent().getStringExtra("districtid"),"owner");
+                            , BID, Lat, Long, cnicimageFile, DID);
             call.enqueue(new Callback<Model>() {
                 @Override
                 public void onResponse(Call<Model> call, Response<Model> response) {
                     if (response.isSuccessful()) {
-                        Log.d("datashowhere", response.body().toString());
-                        Toast.makeText(Profile_Images.this, "Business Registered", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Profile_Images.this, CoreActivity.class));
+                        progressDialog.dismiss();
+                        DialogBOX();
                     } else {
                         Log.v("Response", response.toString());
+                        Toast.makeText(Profile_Images.this, "Not Successful", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+
                     }
                 }
+
                 @Override
                 public void onFailure(Call<Model> call, Throwable t) {
                     Log.d("errror", call.toString());
                     Log.d("errror1", call.request().toString());
+                    Toast.makeText(Profile_Images.this, "Out", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
                 }
             });
-        }
-        else
-        {
+        } else {
             Toast.makeText(this, "Please Upload Images", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize,String photoPath) {
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize, String photoPath) {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
@@ -369,7 +370,7 @@ public class Profile_Images extends AppCompatActivity {
             height = maxSize;
             width = (int) (height * bitmapRatio);
         }
-        Bitmap resizedBitmap1= RotateImage(photoPath,Bitmap.createScaledBitmap(image, width, height, true));
+        Bitmap resizedBitmap1 = RotateImage(photoPath, Bitmap.createScaledBitmap(image, width, height, true));
         return resizedBitmap1;
     }
 
@@ -399,14 +400,25 @@ public class Profile_Images extends AppCompatActivity {
                 default:
                     rotatedBitmap = bitmap;
             }
+        } catch (Exception e) {
         }
-        catch (Exception e){}
         return rotatedBitmap;
     }
 
-    public static Bitmap rotateImage(Bitmap source, float angle){
-            Matrix matrix = new Matrix();
-            matrix.postRotate(angle);
-            return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
-                    matrix, true);
-        }}
+    private void DialogBOX() {
+        AlertDialog alertDialog = new AlertDialog.Builder(Profile_Images.this).create();
+        alertDialog.setTitle("Bussiness Registration");
+        alertDialog.setMessage("Your Business Has Been Registered!");
+        alertDialog.setCancelable(false);
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Profile_Images.this, CoreActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alertDialog.show();
+    }
+}

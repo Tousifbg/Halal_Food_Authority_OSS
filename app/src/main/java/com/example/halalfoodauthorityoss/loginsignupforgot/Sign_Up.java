@@ -1,25 +1,25 @@
 package com.example.halalfoodauthorityoss.loginsignupforgot;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.halalfoodauthorityoss.BaseClass;
 import com.example.halalfoodauthorityoss.R;
 import com.example.halalfoodauthorityoss.model.Model;
-import com.example.halalfoodauthorityoss.registerbusiness.Bussiness_Details;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -31,30 +31,31 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Sign_Up extends AppCompatActivity {
-    
-    TextInputEditText edtname,edtcnic,edtnumber,edtpassword,edtconfirmpassword;
+
+    private static Pattern CNIC_PATTERN, AFG_CNIC_PATTERN, PASSWORD_PATTERN;
+    TextInputEditText edtname, edtcnic, edtnumber, edtpassword, edtconfirmpassword;
     Spinner distspinner;
     TextView register;
     CheckBox checkBox;
-    String name,cnic,number,password,confirmpassword;
-    private static Pattern CNIC_PATTERN,AFG_CNIC_PATTERN,PASSWORD_PATTERN;
+    String name, cnic, number, password, confirmpassword;
     ImageView ic_back;
     List<String> ListDistrictName;
     List<String> ListDistrictID;
     String districtID;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign__up);
-        
+
         initialization();
         displayDistrict();
 
         ic_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Sign_Up.this,Login.class));
+                startActivity(new Intent(Sign_Up.this, Login.class));
                 finish();
             }
         });
@@ -62,7 +63,7 @@ public class Sign_Up extends AppCompatActivity {
         distspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                districtID=ListDistrictID.get(i);
+                districtID = ListDistrictID.get(i);
 
             }
 
@@ -75,85 +76,75 @@ public class Sign_Up extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 name=edtname.getText().toString().trim();
-                 cnic=edtcnic.getText().toString().trim();
-                 number=edtnumber.getText().toString().trim();
-                 password=edtpassword.getText().toString().trim();
-                 confirmpassword=edtconfirmpassword.getText().toString().trim();
+                name = edtname.getText().toString().trim();
+                cnic = edtcnic.getText().toString().trim();
+                number = edtnumber.getText().toString().trim();
+                password = edtpassword.getText().toString().trim();
+                confirmpassword = edtconfirmpassword.getText().toString().trim();
 
-                 if (name.equals(""))
-                 {
-                     edtname.setError("Please Enter Name");
-                     return;
-                 }
-                if (cnic.equals(""))
-                {
+                if (cnic.equals("")) {
                     edtname.setError("Please Enter CNIC");
                     return;
                 }
-                 if (!checkBox.isChecked())
-                 {
-                     if (!CNIC_PATTERN.matcher(cnic).matches()) {
-                         edtcnic.setError("Invalid CNIC Number");
-                         return;
-                     }
-                 }
-                 if (checkBox.isChecked())
-                 {
-                     if (!AFG_CNIC_PATTERN.matcher(cnic).matches()) {
-                         edtcnic.setError("Invalid CNIC Number");
-                         return;
-                     }
-                 }
-                if(number.length()<10 && number.length()>11)
-                {
+                if (!checkBox.isChecked()) {
+                    if (!CNIC_PATTERN.matcher(cnic).matches()) {
+                        edtcnic.setError("Invalid CNIC Number");
+                        return;
+                    }
+                }
+                if (checkBox.isChecked()) {
+                    if (!AFG_CNIC_PATTERN.matcher(cnic).matches()) {
+                        edtcnic.setError("Invalid CNIC Number");
+                        return;
+                    }
+                }
+                if (name.equals("")) {
+                    edtname.setError("Please Enter Name");
+                    return;
+                }
+                if (number.length() < 10 && number.length() > 11) {
                     edtnumber.setError("Invalid Mobile Number");
                     return;
                 }
-                if (districtID=="0")
-                 {
-                     Toast.makeText(Sign_Up.this, "Select District", Toast.LENGTH_SHORT).show();
-                     return;
-                 }
-                if (!PASSWORD_PATTERN.matcher(password).matches())
-                {
+                if (districtID == "0") {
+                    Toast.makeText(Sign_Up.this, "Select District", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!PASSWORD_PATTERN.matcher(password).matches()) {
                     edtpassword.setError("Minimum Length 6, Must Contain Latters and Digits");
                     return;
                 }
-                if (!confirmpassword.equals(password))
-                {
+                if (!confirmpassword.equals(password)) {
                     edtconfirmpassword.setError("Password Does Not Matched");
                     return;
                 }
 
+                progressDialog.show();
+
                 Call<Model> call = BaseClass
                         .getInstance()
                         .getApi()
-                        .Sign_Up(name,cnic,number,password,districtID);
+                        .Sign_Up(name, cnic, number, password, districtID);
 
                 call.enqueue(new Callback<Model>() {
                     @Override
                     public void onResponse(Call<Model> call, Response<Model> response) {
-                        Model model=response.body();
-                        if (response.isSuccessful())
-                        {
-                            if (model.getSuccess().equals("1"))
-                            {
-                                Toast.makeText(Sign_Up.this, "Registered", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(Sign_Up.this,Login.class));
-                                finish();
-                            }
-                            else
-                            {
-                                Toast.makeText(Sign_Up.this, "This User Already Registered", Toast.LENGTH_SHORT).show();
+                        Model model = response.body();
+                        if (response.isSuccessful()) {
+                            if (model.getSuccess().equals("1")) {
+                                progressDialog.dismiss();
+                                DialogBOX();
+                            } else {
+                                progressDialog.dismiss();
+                                Toast.makeText(Sign_Up.this, "This User Already Registered", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Model> call, Throwable t) {
-                        Toast.makeText(Sign_Up.this, "failed", Toast.LENGTH_SHORT).show();
-
+                        progressDialog.dismiss();
+                        Toast.makeText(Sign_Up.this, "out", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -161,23 +152,42 @@ public class Sign_Up extends AppCompatActivity {
 
     }
 
+    private void DialogBOX() {
+        AlertDialog alertDialog = new AlertDialog.Builder(Sign_Up.this).create();
+        alertDialog.setTitle("Your Profile has been Created!");
+        alertDialog.setCancelable(false);
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Sign_Up.this, Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alertDialog.show();
+    }
+
     private void initialization() {
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        edtname=findViewById(R.id.edtname);
-        edtcnic=findViewById(R.id.edtcnic);
-        edtnumber=findViewById(R.id.edtnumber);
-        edtpassword=findViewById(R.id.edtpassword);
-        edtconfirmpassword=findViewById(R.id.edtconfirmpassword);
-        register=findViewById(R.id.btnregister);
-        checkBox=findViewById(R.id.checkBox);
-        distspinner=findViewById(R.id.distspinner);
-        ic_back=findViewById(R.id.ic_back);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
+        edtname = findViewById(R.id.edtname);
+        edtcnic = findViewById(R.id.edtcnic);
+        edtnumber = findViewById(R.id.edtnumber);
+        edtpassword = findViewById(R.id.edtpassword);
+        edtconfirmpassword = findViewById(R.id.edtconfirmpassword);
+        register = findViewById(R.id.btnregister);
+        checkBox = findViewById(R.id.checkBox);
+        distspinner = findViewById(R.id.distspinner);
+        ic_back = findViewById(R.id.ic_back);
 
-        ListDistrictName =  new ArrayList<String>();
-        ListDistrictID =  new ArrayList<String>();
+        ListDistrictName = new ArrayList<String>();
+        ListDistrictID = new ArrayList<String>();
         ListDistrictName.add("Select District");
         ListDistrictID.add("0");
 
@@ -188,15 +198,17 @@ public class Sign_Up extends AppCompatActivity {
                         "(?=\\S+$)" +           //no white spaces
                         ".{6,}" +               //at least 6 characters
                         "$");
-        CNIC_PATTERN=Pattern.compile("^" +"[0-9]{5}-[0-9]{7}-[0-9]{1}"+"$");
-        AFG_CNIC_PATTERN=Pattern.compile("^" +"[0-9]{4}-[0-9]{4}-[0-9]{5}"+"$");
+        CNIC_PATTERN = Pattern.compile("^" + "[0-9]{5}-[0-9]{7}-[0-9]{1}" + "$");
+        AFG_CNIC_PATTERN = Pattern.compile("^" + "[0-9]{4}-[0-9]{4}-[0-9]{5}" + "$");
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(Sign_Up.this,Login.class));
+        startActivity(new Intent(Sign_Up.this, Login.class));
         finish();
     }
+
     private void displayDistrict() {
         Call<List<Model>> call = BaseClass
                 .getInstance()
@@ -205,12 +217,10 @@ public class Sign_Up extends AppCompatActivity {
         call.enqueue(new Callback<List<Model>>() {
             @Override
             public void onResponse(Call<List<Model>> call, Response<List<Model>> response) {
-                List<Model> model=response.body();
-                int size=model.size();
-                if (!model.equals(null))
-                {
-                    for (int i=0;i<size;i++)
-                    {
+                List<Model> model = response.body();
+                int size = model.size();
+                if (!model.equals(null)) {
+                    for (int i = 0; i < size; i++) {
 
                         ListDistrictName.add(model.get(i).getcName());
                         ListDistrictID.add(model.get(i).getID());
@@ -218,8 +228,7 @@ public class Sign_Up extends AppCompatActivity {
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         distspinner.setAdapter(adapter);
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(Sign_Up.this, "Empty Category", Toast.LENGTH_SHORT).show();
                 }
             }

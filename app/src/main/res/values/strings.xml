@@ -3,8 +3,6 @@
     <string name="feedback">Feedback</string>
     <string name="complaint">Complaint</string>
     <string name="training">Training</string>
-    <string name="register_product">Register Product</string>
-    <string name="register_business">Register Business</string>
     <string name="business_registration">Business Registration</string>
     <string name="your_name">Your name</string>
     <string name="father_name">Father Name</string>
@@ -40,8 +38,22 @@
     <string-array name="category">
         <item>Loading...</item>
     </string-array>
+    <string-array name="Complaint_Category">
+        <item>Select Category</item>
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+    </string-array>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCWP7qm8q0ctWka5SLB-QgK3ogYLOTyxdk</string>
     <string name="safe_food_healthy_people">Safe Food, Healthy People</string>
+    <string name="Owner_profile_image">Owner Profile Image</string>
+    <string name="cnic_front_image">CNIC Front Image</string>
+    <string name="complaints_details">Complaints Details</string>
+    <string name="product_registration">Product Registration</string>
+    <string name="product_name">Product Name</string>
+    <string name="business_licence_number">Business Licence Number</string>
+    <string name="business_license">Business License</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

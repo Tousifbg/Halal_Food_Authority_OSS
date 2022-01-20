@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import com.example.halalfoodauthorityoss.adapter.PageAdapter;
+import com.example.halalfoodauthorityoss.complaint.Complaint;
+import com.example.halalfoodauthorityoss.loginsignupforgot.Login;
+import com.example.halalfoodauthorityoss.productregistration.ProductRegistration;
 import com.example.halalfoodauthorityoss.registerbusiness.Personal_Detail;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -20,6 +24,8 @@ public class CoreActivity extends AppCompatActivity {
  //   LinearLayout layoutFeedback, layoutComplaint, layoutTraining, layoutRegisterProduct, layoutRegisterBusiness;
     boolean isFABOpen = false;
     LinearLayout tabMenu;
+    SharedPreferences sharedPreferences = null;
+    SharedPreferences.Editor editor;
 
     TabLayout layout;
     ViewPager viewPager;
@@ -62,18 +68,6 @@ public class CoreActivity extends AppCompatActivity {
             }
         });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(layout));
-
-
-    /*@Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(CompanyMain.this,MainActivity.class));
-        finish();
-    }*/
-
-
-
-
         fabMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,9 +89,32 @@ public class CoreActivity extends AppCompatActivity {
         fabRegisterProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CoreActivity.this,ProductRegistration.class));
+                startActivity(new Intent(CoreActivity.this, ProductRegistration.class));
             }
         });
+        fabComplaint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CoreActivity.this, Complaint.class));
+            }
+        });
+        fabFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LogOut();
+            }
+        });
+    }
+
+    private void LogOut() {
+        sharedPreferences=getSharedPreferences("Profile",MODE_PRIVATE);
+        editor=sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+        Intent intent = new Intent(CoreActivity.this,Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void initialization() {
@@ -107,7 +124,9 @@ public class CoreActivity extends AppCompatActivity {
         layoutRegisterProduct = (LinearLayout) findViewById(R.id.layoutRegisterProduct);
         layoutRegisterBusiness = (LinearLayout) findViewById(R.id.layoutRegisterBusiness);*/
 
-
+        getSupportActionBar().hide();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         tabMenu = (LinearLayout) findViewById(R.id.tabmenu);
         fabMain = (FloatingActionButton) findViewById(R.id.fabMain);
         fabFeedback = (FloatingActionButton) findViewById(R.id.fabFeedback);

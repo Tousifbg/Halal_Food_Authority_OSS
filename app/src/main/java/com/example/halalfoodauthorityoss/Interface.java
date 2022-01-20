@@ -36,13 +36,11 @@ public interface Interface {
             @Part MultipartBody.Part profileimage,
             @Part("bussiness_address") String bussiness_address,
             @Part("bussiness_name") String bussiness_name,
-            @Part("bussiness_category") String bussiness_category,
-            @Part("latitude") String latitude,
-            @Part("longitude") String longitude,
+            @Part("bussiness_category") int bussiness_category,
+            @Part("latitude") double latitude,
+            @Part("longitude") double longitude,
             @Part  MultipartBody.Part cnicimage,
-            @Part("Gender") String Gender,
-            @Part("DistrictId") String DistrictId,
-            @Part("owner") String owner
+            @Part("DistrictId") int DistrictId
     );
     @FormUrlEncoded
     @POST("login")
@@ -63,5 +61,15 @@ public interface Interface {
     @FormUrlEncoded
     @POST("find_business_name")
     Call<Model> GetName( @Field("name") String name
+    );
+
+    @FormUrlEncoded
+    @POST("complain_record")
+    Call<Model> Complaint(
+            @Field("comp_title") String title,
+            @Field("comp_desc") String desc,
+            @Field("cust_id") String id,
+            @Field("address") String address,
+            @Field("distric_id") String district_id
     );
 }

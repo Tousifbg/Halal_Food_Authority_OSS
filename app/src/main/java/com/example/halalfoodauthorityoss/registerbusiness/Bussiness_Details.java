@@ -315,13 +315,6 @@ public class Bussiness_Details extends FragmentActivity implements OnMapReadyCal
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(Bussiness_Details.this, Personal_Detail.class));
-        finish();
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         LatLng latLng = new LatLng(34.0043, 71.5448);

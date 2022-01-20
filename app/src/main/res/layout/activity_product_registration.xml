@@ -4,7 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProductRegistration">
+    tools:context=".productregistration.ProductRegistration">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp120"
+        android:background="@drawable/topbackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp60"
+            android:background="@drawable/topbackground"
+            android:gravity="center"
+            android:text="@string/product_registration"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp20"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ic_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -18,192 +54,83 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.20999998">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp60"
-            android:text="@string/business_registration"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp20"
-            android:textStyle="bold" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.100000024">
 
         <!--Business Name-->
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp8"
-            android:orientation="vertical">
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="@dimen/dp16"
+            android:layout_marginRight="@dimen/dp8"
+            android:hint="@string/business_licence_number">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtBusinessName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp50"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/dp8"
-                    android:text="@string/business_name"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp16"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:paddingRight="@dimen/dp8"
-                    android:text="Urdu"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp16"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/dp50"
-                android:layout_marginTop="@dimen/dp8"
-                android:background="@drawable/edtborder">
-
-                <Spinner
-                    android:id="@+id/bussNameSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:entries="@array/district"
-                    android:gravity="center"
-                    android:minHeight="0dp"
-                    android:paddingLeft="@dimen/dp8"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/sp16" />
-
-                <ImageView
-                    android:layout_width="@dimen/dp40"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp8"
-                    android:src="@drawable/ic_dropdown" />
-            </RelativeLayout>
-        </LinearLayout>
+                android:inputType="text"
+                android:textSize="@dimen/sp16" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--BusinessName TextView-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Business Name"
+            android:layout_marginLeft="8dp"
+            android:textSize="@dimen/dp16"
+            android:paddingLeft="@dimen/dp16"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginRight="@dimen/dp8"/>
         <!--Name Of Product-->
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp8"
-            android:orientation="vertical">
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="@dimen/dp16"
+            android:layout_marginRight="@dimen/dp8"
+            android:hint="@string/product_name">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtProductName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/dp8"
-                    android:text="@string/name_of_product"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp16"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:paddingRight="@dimen/dp8"
-                    android:text="Urdu"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp16"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/edtNameOfProduct"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp45"
-                android:layout_marginTop="@dimen/dp8"
-                android:background="@drawable/edtborder"
-                android:gravity="center"
-                android:hint="Enter Product Name"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp16"
-                android:textStyle="normal" />
-        </LinearLayout>
+                android:inputType="text"
+                android:textSize="@dimen/sp16" />
+        </com.google.android.material.textfield.TextInputLayout>
         <!--Category-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp8"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dp60"
+            android:layout_marginLeft="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp16"
+            android:layout_marginRight="@dimen/dp8"
+            android:background="@drawable/edtborder">
 
-            <LinearLayout
+            <Spinner
+                android:id="@+id/complaintSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:entries="@array/Complaint_Category"
+                android:minHeight="0dp"
+                android:paddingLeft="8dp"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/dp8"
-                    android:text="@string/category"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp16"
-                    android:textStyle="bold" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/ic_dropdown" />
+        </RelativeLayout>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:paddingRight="@dimen/dp8"
-                    android:text="@string/urdu"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp16"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/dp50"
-                android:layout_marginTop="@dimen/dp8"
-                android:background="@drawable/edtborder">
-
-                <Spinner
-                    android:id="@+id/prodCategorySpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:entries="@array/category"
-                    android:gravity="center"
-                    android:minHeight="0dp"
-                    android:paddingLeft="@dimen/dp8"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/sp16" />
-
-                <ImageView
-                    android:layout_width="@dimen/dp40"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp8"
-                    android:src="@drawable/ic_dropdown" />
-            </RelativeLayout>
-        </LinearLayout>
         <!--Food test Result-->
-        <LinearLayout
+  <!--      <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp8"
@@ -240,8 +167,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginTop="@dimen/dp8"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -263,17 +190,24 @@
                     android:paddingRight="@dimen/dp8"
                     android:src="@drawable/ic_launcher_background" />
             </LinearLayout>
-        </LinearLayout>
+        </LinearLayout>-->
 
-        <Button
-            android:id="@+id/register"
-            android:layout_width="@dimen/dp220"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp50"
-            android:layout_marginBottom="@dimen/dp50"
+        <TextView
+            android:id="@+id/btnSubmit"
+            android:layout_width="220dp"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="@dimen/dp32"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="@dimen/dp16"
             android:background="@drawable/btnborder"
-            android:text="Register" />
-
+            android:gravity="center"
+            android:text="SUBMIT"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp18"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

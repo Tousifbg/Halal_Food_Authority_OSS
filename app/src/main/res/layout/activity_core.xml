@@ -79,63 +79,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-<!--    &lt;!&ndash;Buttom Bar&ndash;&gt;
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:gravity="bottom"
-        android:weightSum="5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp">
-
-        <ImageView
-            android:id="@+id/one"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp60"
-            android:layout_weight="1"
-            android:src="@mipmap/ic_launcher" />
-
-        <ImageView
-            android:id="@+id/two"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp60"
-            android:layout_weight="1"
-            android:src="@mipmap/ic_launcher" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/dp24"
-            android:gravity="center">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabMain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_add"
-                android:visibility="visible" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/four"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp60"
-            android:layout_weight="1"
-            android:src="@mipmap/ic_launcher" />
-
-        <ImageView
-            android:id="@+id/five"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp60"
-            android:layout_weight="1"
-            android:src="@mipmap/ic_launcher" />
-
-    </LinearLayout>-->
-
 <!--tab menu-->
     <LinearLayout
 
@@ -163,7 +106,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/register_business" />
+                android:text="@string/business_license" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabRegisterBusiness"
@@ -186,7 +129,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/register_product" />
+                android:text="@string/product_registration" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabRegisterProduct"
@@ -267,144 +210,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <!--<LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="end"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        &lt;!&ndash;Register Business&ndash;&gt;
-        <LinearLayout
-            android:id="@+id/layoutRegisterBusiness"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/register_business" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabRegisterBusiness"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:visibility="visible"
-                app:fabSize="mini"
-                app:srcCompat="@android:drawable/ic_btn_speak_now" />
-
-        </LinearLayout>
-        &lt;!&ndash;Register Product&ndash;&gt;
-        <LinearLayout
-            android:id="@+id/layoutRegisterProduct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/register_product" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabRegisterProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:visibility="visible"
-                app:fabSize="mini"
-                app:srcCompat="@android:drawable/ic_btn_speak_now" />
-
-        </LinearLayout>
-        &lt;!&ndash;Training&ndash;&gt;
-        <LinearLayout
-            android:id="@+id/layoutTraining"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/training" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabTraining"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:visibility="visible"
-                app:fabSize="mini"
-                app:srcCompat="@android:drawable/ic_btn_speak_now" />
-
-        </LinearLayout>
-        &lt;!&ndash;Complaint&ndash;&gt;
-        <LinearLayout
-            android:id="@+id/layoutComplaint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/complaint" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabCompliant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:visibility="visible"
-                app:fabSize="mini"
-                app:srcCompat="@android:drawable/ic_menu_camera" />
-        </LinearLayout>
-        &lt;!&ndash;Feedback&ndash;&gt;
-        <LinearLayout
-            android:id="@+id/layoutFeedback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/feedback" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabFeedback"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:visibility="visible"
-                app:fabSize="mini"
-                app:srcCompat="@android:drawable/ic_dialog_map" />
-        </LinearLayout>
-        &lt;!&ndash;Main Floating Button&ndash;&gt;
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabMain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_add"
-            android:visibility="visible" />
-
-    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,26 +24,6 @@ public class Model {
     @SerializedName("message")
     public String message;
 
-    public Model(String success)
-    {
-        this.success = success;
-    }
-
-    public Model(String name, String cnic, String userID) {
-        this.name = name;
-        this.cnic = cnic;
-        this.userID = userID;
-    }
-
-
-    public Model(String name, String cnic, String c_mobile, String cpass, int district_id) {
-        this.name = name;
-        this.cnic = cnic;
-        this.c_mobile = c_mobile;
-        this.cpass = cpass;
-        this.district_id = district_id;
-    }
-
     public String getName() {
         return name;
     }

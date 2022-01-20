@@ -11,12 +11,6 @@ public class LoginResponse
     @SerializedName("user_data")
     public Model user_data;
 
-    public LoginResponse(String success, String message, Model user_data) {
-        this.success = success;
-        Message = message;
-        this.user_data = user_data;
-    }
-
     public String getSuccess() {
         return success;
     }

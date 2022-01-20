@@ -1,7 +1,9 @@
 package com.example.halalfoodauthorityoss.loginsignupforgot;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -87,6 +89,7 @@ public class Forgot_Passoword extends AppCompatActivity {
                             {
                                 Toast.makeText(Forgot_Passoword.this, "Mobile Number:"+model.getC_mobile(), Toast.LENGTH_SHORT).show();
                                 Toast.makeText(Forgot_Passoword.this, "Password:"+model.getCpass(), Toast.LENGTH_SHORT).show();
+                                DialogBOX();
                             }
                             else
                             {
@@ -122,5 +125,21 @@ public class Forgot_Passoword extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(Forgot_Passoword.this,Login.class));
         finish();
+    }
+    private void DialogBOX() {
+        AlertDialog alertDialog = new AlertDialog.Builder(Forgot_Passoword.this).create();
+        alertDialog.setTitle("Alert!");
+        alertDialog.setMessage("Password Has Been Sent On Your Number!");
+        alertDialog.setCancelable(false);
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Forgot_Passoword.this,Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alertDialog.show();
     }
 }

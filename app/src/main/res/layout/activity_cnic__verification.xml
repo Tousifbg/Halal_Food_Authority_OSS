@@ -67,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
+                    android:text="16102-7650177-7"
                     android:textSize="@dimen/sp16" />
             </com.google.android.material.textfield.TextInputLayout>
 
