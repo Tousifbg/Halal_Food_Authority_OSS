@@ -49,6 +49,7 @@ public class Login extends AppCompatActivity {
     SharedPreferences.Editor editor;
     String cnic="";
 
+    //gg
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
