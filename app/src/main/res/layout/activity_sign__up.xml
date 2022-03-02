@@ -84,13 +84,14 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/cnic_number">
+                    android:hint="@string/cnic_number_without_dashes">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtcnic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
+                        android:inputType="number"
+                        android:digits="0123456789"
                         android:textSize="@dimen/sp16" />
                 </com.google.android.material.textfield.TextInputLayout>
 

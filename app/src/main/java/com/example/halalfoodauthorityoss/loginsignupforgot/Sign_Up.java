@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -37,7 +40,7 @@ public class Sign_Up extends AppCompatActivity {
     Spinner distspinner;
     TextView register;
     CheckBox checkBox;
-    String name, cnic, number, password, confirmpassword;
+    String name, cnic="", number, password, confirmpassword;
     ImageView ic_back;
     List<String> ListDistrictName;
     List<String> ListDistrictID;
@@ -51,6 +54,47 @@ public class Sign_Up extends AppCompatActivity {
 
         initialization();
         displayDistrict();
+
+        edtcnic.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String cnicNo = edtcnic.getText().toString().trim();
+                if (!checkBox.isChecked()) {
+                    if (cnicNo.length() == 13) {
+                        cnic = cnicNo.substring(0, 5) + "-" + cnicNo.substring(5, 12) + "-" + cnicNo.substring(12);
+                        if (CNIC_PATTERN.matcher(cnic).matches()) {
+                            return;
+                        } else {
+                            edtcnic.setError("Invalid Cnic");
+                        }
+                    } else if (cnicNo.length() > 13) {
+                        edtcnic.setError("Invalid Cnic");
+                        return;
+                    }
+                }
+                if (checkBox.isChecked()) {
+                    if (cnicNo.length() == 13) {
+                        cnic = cnicNo.substring(0, 4) + "-" + cnicNo.substring(4, 8) + "-" + cnicNo.substring(8, 13);
+                        if (AFG_CNIC_PATTERN.matcher(cnic).matches()) {
+                            return;
+                        } else {
+                            edtcnic.setError("Invalid Cnic");
+                        }
+                    } else if (cnicNo.length() > 13) {
+                        edtcnic.setError("Invalid Cnic");
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
         ic_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,15 +121,22 @@ public class Sign_Up extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 name = edtname.getText().toString().trim();
-                cnic = edtcnic.getText().toString().trim();
+                String cnicNo = edtcnic.getText().toString().trim();
                 number = edtnumber.getText().toString().trim();
                 password = edtpassword.getText().toString().trim();
                 confirmpassword = edtconfirmpassword.getText().toString().trim();
 
-                if (cnic.equals("")) {
-                    edtname.setError("Please Enter CNIC");
+                if (cnicNo.length()<13 || cnicNo.length()>13 || cnicNo.equals(""))
+                {
+                    edtcnic.setError("Invalid CNIC");
                     return;
                 }
+                if (!checkBox.isChecked()) {
+                    cnic = cnicNo.substring(0, 5) + "-" + cnicNo.substring(5, 12) + "-" + cnicNo.substring(12);
+                } else {
+                    cnic = cnicNo.substring(0, 4) + "-" + cnicNo.substring(4, 8) + "-" + cnicNo.substring(8, 13);
+                }
+
                 if (!checkBox.isChecked()) {
                     if (!CNIC_PATTERN.matcher(cnic).matches()) {
                         edtcnic.setError("Invalid CNIC Number");
@@ -102,7 +153,7 @@ public class Sign_Up extends AppCompatActivity {
                     edtname.setError("Please Enter Name");
                     return;
                 }
-                if (number.length() < 10 && number.length() > 11) {
+                if (number.length() < 10 || number.length() > 11) {
                     edtnumber.setError("Invalid Mobile Number");
                     return;
                 }
@@ -118,20 +169,20 @@ public class Sign_Up extends AppCompatActivity {
                     edtconfirmpassword.setError("Password Does Not Matched");
                     return;
                 }
-
                 progressDialog.show();
 
+                int Did = Integer.parseInt(districtID);
                 Call<Model> call = BaseClass
                         .getInstance()
                         .getApi()
-                        .Sign_Up(name, cnic, number, password, districtID);
+                          .Sign_Up(cnic,password,name,Did,number);
 
                 call.enqueue(new Callback<Model>() {
                     @Override
                     public void onResponse(Call<Model> call, Response<Model> response) {
                         Model model = response.body();
                         if (response.isSuccessful()) {
-                            if (model.getSuccess().equals("1")) {
+                            if (model.getSuccess().equals("0")) {
                                 progressDialog.dismiss();
                                 DialogBOX();
                             } else {
@@ -145,6 +196,8 @@ public class Sign_Up extends AppCompatActivity {
                     public void onFailure(Call<Model> call, Throwable t) {
                         progressDialog.dismiss();
                         Toast.makeText(Sign_Up.this, "out", Toast.LENGTH_SHORT).show();
+                        Log.d("errror", call.toString());
+                        Log.d("errror1", call.request().toString());
                     }
                 });
             }

@@ -5,10 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.halalfoodauthorityoss.fragments.Tab1;
-import com.example.halalfoodauthorityoss.fragments.Tab2;
-import com.example.halalfoodauthorityoss.fragments.Tab3;
-import com.example.halalfoodauthorityoss.fragments.Tab4;
+import com.example.halalfoodauthorityoss.fragments.Favorite;
+import com.example.halalfoodauthorityoss.fragments.Profile;
+import com.example.halalfoodauthorityoss.fragments.Home;
 
 public class PageAdapter extends FragmentPagerAdapter {
     int tabcount;
@@ -23,10 +22,9 @@ public class PageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position)
         {
-            case 0: return new Tab1();
-            case 1: return new Tab2();
-            case 2: return new Tab3();
-            case 3: return new Tab4();
+            case 0: return new Home();
+            case 1: return new Profile();
+            case 2: return new Favorite();
             default:  return null;
         }
 

@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".registerbusiness.Bussiness_Details">
+    android:id="@+id/lyout"
+    tools:context=".businesslicense.Bussiness_Details">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp120"
         android:background="@drawable/topbackground"
@@ -15,29 +16,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:gravity="center"
-            android:text="@string/business_registration"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp18"
-            android:textStyle="bold"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="@dimen/dp50"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/ic_back"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/ic_back"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="start"
+                android:src="@drawable/ic_back"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="61dp" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topbackground"
+                android:gravity="center"
+                android:paddingRight="@dimen/dp24"
+                android:text="@string/business_registration"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp20"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="57dp"
+                tools:layout_editor_absoluteY="60dp" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -48,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -317,8 +331,8 @@
                     android:inputType="text"
                     android:textSize="@dimen/sp16" />
             </com.google.android.material.textfield.TextInputLayout>
-<!--latitude and longitude-->
-          <!--  <LinearLayout
+            <!--latitude and longitude-->
+            <!--  <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -417,10 +431,9 @@
                 android:paddingLeft="@dimen/dp32"
                 android:text="Select Location From Map"
                 android:textColor="@color/black"
-                android:textSize="@dimen/sp16"
-                />
+                android:textSize="@dimen/sp16" />
 
-           <!-- <ImageView
+            <!-- <ImageView
                 android:id="@+id/imgLocation"
                 android:layout_width="@dimen/dp120"
                 android:layout_height="@dimen/dp80"
@@ -429,19 +442,20 @@
                 android:src="@drawable/ic_location" />-->
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="2">
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dp24"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="@dimen/dp24">
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp8"
-                    android:layout_marginLeft="@dimen/dp24"
-                    android:layout_marginRight="@dimen/dp8"
-                    android:layout_weight="1.5"
+                    android:layout_weight="2.4"
                     android:hint="@string/search_here">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -451,41 +465,41 @@
                         android:inputType="text"
                         android:textSize="@dimen/sp16" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-
-                <TextView
-                    android:id="@+id/btnsearch"
-                    android:layout_width="35dp"
-                    android:layout_weight="0.5"
-                    android:layout_height="@dimen/dp40"
-                    android:background="@drawable/btnborder"
-                    android:layout_marginTop="@dimen/dp8"
-                    android:gravity="center"
-                    android:text="Search"
-                    android:layout_marginRight="@dimen/dp24"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp16"
-                    android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/icSearch"
+                    android:layout_width="25dp"
+                    android:layout_weight="0.3"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_search"
+                    />
+                <ImageView
+                    android:id="@+id/currentLocation"
+                    android:layout_width="25dp"
+                    android:layout_weight="0.3"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_location_searching"
+                    />
             </LinearLayout>
 
             <ScrollView
+                android:id="@+id/aaa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="200dp">
-                <fragment
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginLeft="@dimen/dp24"
-                    android:layout_marginRight="@dimen/dp24"
-                    android:layout_marginTop="@dimen/dp8"
-                    android:layout_marginBottom="@dimen/dp8"
-                    />
+
+                    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/map"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginLeft="@dimen/dp24"
+                        android:layout_marginTop="@dimen/dp8"
+                        android:layout_marginRight="@dimen/dp24"
+                        android:layout_marginBottom="@dimen/dp8" />
                 </LinearLayout>
             </ScrollView>
 

@@ -12,4 +12,8 @@
     <color name="textcolor1">#6D6B6B</color>
     <color name="colorPrimary">#6200EE</color>
     <color name="lightbrown">#DCDFDD</color>
+    <color name="yellow">#EBDC9C00</color>
+    <color name="brown">#46000000</color>
+    <color name="offwhite">#0C000000</color>
+    <color name="green">#2A830A</color>
 </resources>

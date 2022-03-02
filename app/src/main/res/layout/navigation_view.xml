@@ -9,15 +9,64 @@
     android:focusable="true"
     android:focusableInTouchMode="true" >
 
-    <ScrollView
-        android:layout_alignParentTop="true"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/dp24"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilePic"
+            android:layout_marginTop="@dimen/dp16"
+            android:layout_width="@dimen/dp90"
+            android:layout_height="@dimen/dp90"
+            android:src="@drawable/ic_human" />
 
         <LinearLayout
-            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp16"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp16"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:text="Number"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp16"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomBar"
+        android:layout_marginTop="@dimen/dp8"
+        android:layout_below="@+id/linearLayout4"
+        >
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -28,7 +77,7 @@
                 android:background="#5C000000" />
 
             <LinearLayout
-                android:id="@+id/navbusiness"
+                android:id="@+id/navSOPs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -38,7 +87,7 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-               <!-- <ImageView
+                <!-- <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_home" />-->
@@ -49,7 +98,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="My Business"
+                    android:text="SOPs and Manuals"
                     android:textColor="@android:color/widget_edittext_dark"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -60,7 +109,7 @@
                 android:background="#fff" />
 
             <LinearLayout
-                android:id="@+id/navproduct"
+                android:id="@+id/navActs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -78,7 +127,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="My Products"
+                    android:text="Acts and Regulations"
                     android:textColor="@android:color/widget_edittext_dark"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -89,7 +138,7 @@
                 android:background="#fff" />
 
             <LinearLayout
-                android:id="@+id/navcomplaints"
+                android:id="@+id/navReports"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -107,110 +156,10 @@
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="My Complaints"
+                    android:text="Annual Reports"
                     android:textColor="@android:color/widget_edittext_dark"
                     android:textSize="16sp" />
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/navfeedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <!--<ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_orders" />-->
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="My Feedback"
-                    android:textColor="@android:color/widget_edittext_dark"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#fff" />
-
-            <LinearLayout
-                android:id="@+id/navtraining"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <!--<ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_payment" />-->
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="My Training"
-                    android:textColor="@android:color/widget_edittext_dark"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#fff" />
-
-            <LinearLayout
-                android:id="@+id/navdownloads"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <!--<ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_payment" />-->
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="Downloads"
-                    android:textColor="@android:color/widget_edittext_dark"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center">
-
-                <Button
-                    android:id="@+id/btnTrake"
-                    android:layout_width="130dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/btn_track"
-                    android:text="Track Agent"
-                    android:textColor="#fff"
-                    android:textSize="14sp" />
-            </LinearLayout>-->
 
             <View
                 android:layout_width="match_parent"
@@ -222,7 +171,7 @@
                 android:background="#5C000000" />
 
             <LinearLayout
-                android:id="@+id/navaboutus"
+                android:id="@+id/navAboutus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -232,7 +181,7 @@
                 <!--<ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_contact" />-->
+                    android:src="@drawable/ic_home" />-->
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -252,6 +201,7 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -274,29 +224,16 @@
             android:layout_margin="5dp"
             android:orientation="horizontal"
             android:padding="10dp"
-            android:weightSum="3">
-
-            <!--<ImageView
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="0.9"
-                android:src="@drawable/ic_youtube" />
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="0.9"
-                android:src="@drawable/ic_insta" />-->
+            >
 
             <Button
                 android:id="@+id/navlogout"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp140"
                 android:layout_height="40dp"
-                android:layout_weight="1.2"
                 android:background="@drawable/btnborder"
                 android:text="Logout"
                 android:textColor="#fff"
-                android:textSize="14sp" />
+                android:textSize="@dimen/sp16" />
 
         </LinearLayout>
 

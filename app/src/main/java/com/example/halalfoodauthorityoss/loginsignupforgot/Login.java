@@ -9,6 +9,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
@@ -44,6 +47,7 @@ public class Login extends AppCompatActivity {
     ProgressDialog progressDialog;
     SharedPreferences sharedPreferences = null;
     SharedPreferences.Editor editor;
+    String cnic="";
 
 
     @Override
@@ -54,17 +58,65 @@ public class Login extends AppCompatActivity {
         initialization();
         CheckInternet();
 
+        edtcnic.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String cnicNo = edtcnic.getText().toString().trim();
+                if (!checkBox.isChecked()) {
+                    if (cnicNo.length() == 13) {
+                        cnic = cnicNo.substring(0, 5) + "-" + cnicNo.substring(5, 12) + "-" + cnicNo.substring(12);
+                        if (CNIC_PATTERN.matcher(cnic).matches()) {
+                            return;
+                        } else {
+                            edtcnic.setError("Invalid Cnic");
+                        }
+                    } else if (cnicNo.length() > 13) {
+                        edtcnic.setError("Invalid Cnic");
+                        return;
+                    }
+                }
+                if (checkBox.isChecked()) {
+                    if (cnicNo.length() == 13) {
+                        cnic = cnicNo.substring(0, 4) + "-" + cnicNo.substring(4, 8) + "-" + cnicNo.substring(8, 13);
+                        if (AFG_CNIC_PATTERN.matcher(cnic).matches()) {
+                            return;
+                        } else {
+                            edtcnic.setError("Invalid Cnic");
+                        }
+                    } else if (cnicNo.length() > 13) {
+                        edtcnic.setError("Invalid Cnic");
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String cnic = edtcnic.getText().toString().trim();
+                String cnicNo = edtcnic.getText().toString().trim();
                 String password = edtpassword.getText().toString().trim();
 
-                if (cnic.equals("")) {
-                    edtcnic.setError("Please Enter CNIC ");
+                if (cnicNo.length()<13 || cnicNo.length()>13 || cnicNo.equals(""))
+                {
+                    edtcnic.setError("Invalid CNIC");
                     return;
                 }
+                if (!checkBox.isChecked()) {
+                    cnic = cnicNo.substring(0, 5) + "-" + cnicNo.substring(5, 12) + "-" + cnicNo.substring(12);
+                } else {
+                    cnic = cnicNo.substring(0, 4) + "-" + cnicNo.substring(4, 8) + "-" + cnicNo.substring(8, 13);
+                }
+
                 if (password.equals("")) {
                     edtpassword.setError("Please Enter Password");
                     return;
@@ -166,31 +218,44 @@ public class Login extends AppCompatActivity {
                 .getInstance()
                 .getApi()
                 .Login(cnic, password);
-
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                LoginResponse loginResponse = response.body();
-                if (!loginResponse.equals(null)) {
-                    if (!loginResponse.success.equals("0")) {
-                        AppData.name = loginResponse.user_data.getName();
-                        AppData.cnic = loginResponse.user_data.getCnic();
-                        AppData.id = loginResponse.user_data.getUser_id();
-                        startActivity(new Intent(Login.this, CoreActivity.class));
-                        if (check.equals("0")) {
-                            SharedprefUser(cnic, password);
+                if (response.isSuccessful()) {
+                    LoginResponse loginResponse = response.body();
+                    if (!loginResponse.equals(null)) {
+                        if (!loginResponse.success.equals("0")) {
+                            AppData.name = loginResponse.user_data.getName();
+                            AppData.cnic = loginResponse.user_data.getCnic();
+                            AppData.mobileNumber = loginResponse.user_data.getC_mobile();
+                            if (loginResponse.user_data.getPath()!=null){
+                                AppData.photo=loginResponse.user_data.getPath();
+                            }
+                            if (loginResponse.user_data.getAddress()!=null){
+                                AppData.address = loginResponse.user_data.getAddress();
+                            }
+                            AppData.password = loginResponse.user_data.getCpass();
+                            AppData.id = Integer.parseInt(loginResponse.user_data.getUser_id());
+                            startActivity(new Intent(Login.this, CoreActivity.class));
+                            if (check.equals("0")) {
+                                SharedprefUser(cnic, password);
+                            }
+                            progressDialog.dismiss();
+                            finish();
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(Login.this, "Invalid CNIC or Password", Toast.LENGTH_LONG).show();
                         }
-                        progressDialog.dismiss();
-                        finish();
-                    } else {
-                        progressDialog.dismiss();
-                        Toast.makeText(Login.this, "Invalid CNIC or Password", Toast.LENGTH_LONG).show();
                     }
+                }else {
+                    progressDialog.dismiss();
+                    Toast.makeText(Login.this, "Not Successful", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
+                progressDialog.dismiss();
                 Toast.makeText(Login.this, "out", Toast.LENGTH_SHORT).show();
             }
         });
@@ -218,7 +283,6 @@ public class Login extends AppCompatActivity {
 
     private void SharedprefUser(String cnic, String password) {
         sharedPreferences = getSharedPreferences("Profile", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
         editor = sharedPreferences.edit();
         editor.putString("CNIC", cnic);
         editor.putString("PASSWORD", password);

@@ -71,14 +71,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp8"
                 android:layout_marginRight="@dimen/dp8"
-                android:hint="@string/cnic_number">
+                android:hint="@string/cnic_number_without_dashes">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtcnic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:text="17201-0793330-1"
+                    android:inputType="number"
+                    android:digits="0123456789"
+                    android:text="16102-7650177-7"
                     android:textSize="@dimen/sp16" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:text="Hafeez55"
+                    android:text="W12345"
                     android:textSize="@dimen/sp16" />
             </com.google.android.material.textfield.TextInputLayout>
 

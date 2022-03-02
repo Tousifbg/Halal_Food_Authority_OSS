@@ -3,7 +3,6 @@ package com.example.halalfoodauthorityoss;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -73,12 +72,9 @@ public class MainActivity extends AppCompatActivity {
         menu=findViewById(R.id.menu);
         navigationdrawer=findViewById(R.id.navigationdrawer);
         navigationView=findViewById(R.id.navigationview);
-        navbusiness=navigationView.findViewById(R.id.navbusiness);
+        navbusiness=navigationView.findViewById(R.id.navSOPs);
 
-
-
-
-        /*navbusiness=findViewById(R.id.navbusiness);
+       /* navbusiness=findViewById(R.id.navbusiness);
         navproducts=findViewById(R.id.navproduct);
         navcomplaints=findViewById(R.id.navcomplaints);
         navfeedback=findViewById(R.id.navfeedback);
@@ -104,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
    /* @SuppressLint("WrongConstant")
     public void openDrawer() {
-
         navigationdrawer.openDrawer(Gravity.START);
     }*/
 }

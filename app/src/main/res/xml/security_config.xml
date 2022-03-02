@@ -2,6 +2,6 @@
 <network-security-config>
     <base-config cleartextTrafficPermitted="true" />
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">http://halalfood.creativesafedriver.com/Config_admin</domain>
+        <domain includeSubdomains="true">http://halalfoods.testportal.famzsolutions.com/Config_admin/</domain>
     </domain-config>
 </network-security-config>

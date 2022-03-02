@@ -1,11 +1,10 @@
-package com.example.halalfoodauthorityoss.registerbusiness;
+package com.example.halalfoodauthorityoss.businesslicense;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -26,11 +25,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.halalfoodauthorityoss.BaseClass;
 import com.example.halalfoodauthorityoss.CoreActivity;
 import com.example.halalfoodauthorityoss.R;
+import com.example.halalfoodauthorityoss.loginsignupforgot.UpdateProfile;
+import com.example.halalfoodauthorityoss.model.AppData;
 import com.example.halalfoodauthorityoss.model.Model;
+import com.yalantis.ucrop.UCrop;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Random;
+import java.util.UUID;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -46,8 +49,7 @@ public class Profile_Images extends AppCompatActivity {
     EditText edtCNIC;
     String selectedImagePath, selectedImagePath1;
     File profileFile, cnicFile;
-    String imageone = "", imagetwo = "";
-
+    String imageone = "", imagetwo = "", Checking="";
     ProgressDialog progressDialog;
 
     public static Bitmap rotateImage(Bitmap source, float angle) {
@@ -68,6 +70,7 @@ public class Profile_Images extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 selectImage();
+                Checking="Profile";
             }
         });
 
@@ -75,6 +78,7 @@ public class Profile_Images extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 selectImage1();
+                Checking="Cnic";
             }
         });
 
@@ -147,13 +151,36 @@ public class Profile_Images extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch (requestCode) {
-            case 0:
-                if (requestCode == 0)
-                    if (resultCode == RESULT_OK) {
-                        {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        switch (requestCode) {
+//            case 0:
+                if (resultCode == RESULT_OK && requestCode == 0) {
+                    File file = null;
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+                    try {
+                        file = File.createTempFile("JPEG_", ".JPEG", dir);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (file != null) {
+                        FileOutputStream fout;
+                        try {
+                            fout = new FileOutputStream(file);
+                            photo.compress(Bitmap.CompressFormat.JPEG, 100, fout);
+                            fout.flush();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (file != null) {
+                        Uri uri = Uri.fromFile(file);
+                        startCrop(uri);
+                    }
+                }
+               /* {
                             Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
                             File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
                             final int min = 200000;
@@ -184,11 +211,16 @@ public class Profile_Images extends AppCompatActivity {
                                 profileImage.setImageURI(Uri.parse(profileFile.getAbsolutePath()));
                                 imageone = "imageone";
                             }
-                        }
+                        }*/
+//                break;
+//            case 1:
+               else if (resultCode == RESULT_OK && requestCode == 1) {
+                    Uri uri = data.getData();
+                    if (uri != null) {
+                        startCrop(uri);
                     }
-                break;
-            case 1:
-                if (resultCode == RESULT_OK) {
+                }
+               /*    if (resultCode == RESULT_OK) {
                     if (requestCode == 1) {
                         Uri selectedImageUri = imageReturnedIntent.getData();
                         selectedImagePath = getRealPathFromURIForGallery(selectedImageUri);
@@ -216,11 +248,35 @@ public class Profile_Images extends AppCompatActivity {
                         profileImage.setImageURI(Uri.parse(profileFile.getAbsolutePath()));
                         imageone = "imageone";
                     }
+                }*/
+//                break;
+//            case 2:
+               else if (resultCode == RESULT_OK && requestCode == 2) {
+                    File file = null;
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+                    try {
+                        file = File.createTempFile("JPEG_", ".JPEG", dir);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (file != null) {
+                        FileOutputStream fout;
+                        try {
+                            fout = new FileOutputStream(file);
+                            photo.compress(Bitmap.CompressFormat.JPEG, 100, fout);
+                            fout.flush();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (file != null) {
+                        Uri uri = Uri.fromFile(file);
+                        startCrop(uri);
+                    }
                 }
-                break;
-            case 2:
-                if (requestCode == 2)
-                    if (resultCode == RESULT_OK) {
+               /*            if (resultCode == RESULT_OK) {
                         {
                             Bitmap photo = (Bitmap) imageReturnedIntent.getExtras().get("data");
                             File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
@@ -253,10 +309,16 @@ public class Profile_Images extends AppCompatActivity {
                                 imagetwo = "imagetwo";
                             }
                         }
+                    }*/
+//                break;
+//            case 3:
+               else if (resultCode == RESULT_OK && requestCode == 3) {
+                    Uri uri = data.getData();
+                    if (uri != null) {
+                        startCrop(uri);
                     }
-                break;
-            case 3:
-                if (resultCode == RESULT_OK) {
+                }
+               /* if (resultCode == RESULT_OK) {
                     if (requestCode == 3) {
                         Uri selectedImageUri = imageReturnedIntent.getData();
                         selectedImagePath1 = getRealPathFromURIForGallery(selectedImageUri);
@@ -284,9 +346,29 @@ public class Profile_Images extends AppCompatActivity {
                         cnicImage.setImageURI(Uri.parse(cnicFile.getAbsolutePath()));
                         imagetwo = "imagetwo";
                     }
-                }
-                break;
+                }*/
+//                break;
+       else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && Checking.equals("Profile")) {
+            final Uri resultUri = UCrop.getOutput(data);
+            Uri uri= Uri.parse(resultUri.getPath());
+            if (uri != null) {
+                profileFile = new File(String.valueOf(uri));
+                profileImage.setImageURI(resultUri);
+                imageone="one";
+            }
         }
+
+       else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP && Checking.equals("Cnic")) {
+            final Uri resultUri = UCrop.getOutput(data);
+            Uri uri= Uri.parse(resultUri.getPath());
+            if (uri != null) {
+                cnicFile = new File(String.valueOf(uri));
+                cnicImage.setImageURI(resultUri);
+                imagetwo="two";
+            }
+        }
+
+//        }
     }
 
     public String getRealPathFromURIForGallery(Uri uri) {
@@ -318,24 +400,32 @@ public class Profile_Images extends AppCompatActivity {
             MultipartBody.Part profileimageFile = MultipartBody.Part.createFormData("profile_image", PROFILEImage.getName(), requestBodyPROFILE);
             MultipartBody.Part cnicimageFile = MultipartBody.Part.createFormData("cnic_image", CNICImage.getName(), requestBodyCNIC);
 
-            int BID= Integer.parseInt(getIntent().getStringExtra("categoryid"));
-            int DID= Integer.parseInt(getIntent().getStringExtra("districtid"));
-            double Lat= Double.parseDouble(getIntent().getStringExtra("latitude"));
-            double Long= Double.parseDouble(getIntent().getStringExtra("longitude"));
+            int BID = Integer.parseInt(getIntent().getStringExtra("categoryid"));
+            int DID = Integer.parseInt(getIntent().getStringExtra("districtid"));
+            float Lat = Float.parseFloat(getIntent().getStringExtra("latitude"));
+            float Long = Float.parseFloat(getIntent().getStringExtra("longitude"));
+            /*double Lat= Double.parseDouble(getIntent().getStringExtra("latitude"));
+            double Long= Double.parseDouble(getIntent().getStringExtra("longitude"));*/
 
             Call<Model> call = BaseClass
                     .getInstance()
                     .getApi()
                     .Add_Owner(getIntent().getStringExtra("name"), getIntent().getStringExtra("fathername"), getIntent().getStringExtra("cnic"),
                             getIntent().getStringExtra("contact"), profileimageFile, getIntent().getStringExtra("businessaddress"),
-                            getIntent().getStringExtra("Businessname")
-                            , BID, Lat, Long, cnicimageFile, DID);
+                            getIntent().getStringExtra("businessname")
+                            , BID, Lat, Long, cnicimageFile, DID,"male","owner", AppData.id);
             call.enqueue(new Callback<Model>() {
                 @Override
                 public void onResponse(Call<Model> call, Response<Model> response) {
+                    Model model=response.body();
                     if (response.isSuccessful()) {
+                        if (model.success.equals("1")){
                         progressDialog.dismiss();
-                        DialogBOX();
+                        DialogBOX();}
+                        else{
+                            Toast.makeText(Profile_Images.this, ""+model.response_msg, Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }
                     } else {
                         Log.v("Response", response.toString());
                         Toast.makeText(Profile_Images.this, "Not Successful", Toast.LENGTH_LONG).show();
@@ -407,7 +497,7 @@ public class Profile_Images extends AppCompatActivity {
 
     private void DialogBOX() {
         AlertDialog alertDialog = new AlertDialog.Builder(Profile_Images.this).create();
-        alertDialog.setTitle("Bussiness Registration");
+        alertDialog.setTitle("Business Registration");
         alertDialog.setMessage("Your Business Has Been Registered!");
         alertDialog.setCancelable(false);
 
@@ -420,5 +510,31 @@ public class Profile_Images extends AppCompatActivity {
             }
         });
         alertDialog.show();
+    }
+
+    public void startCrop(Uri uri) {
+        String destinationFileName = new StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString();
+        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        File file = new File(path, "/" + destinationFileName);
+        UCrop uCrop = UCrop.of(uri, Uri.fromFile(file));
+        uCrop.withAspectRatio(1, 1);
+        uCrop.withAspectRatio(3, 4);
+        uCrop.useSourceImageAspectRatio();
+        uCrop.withAspectRatio(2, 3);
+        uCrop.withAspectRatio(16, 9);
+        uCrop.withMaxResultSize(450, 450);
+        uCrop.withOptions(getCropOptions());
+        uCrop.start(Profile_Images.this);
+    }
+
+    public UCrop.Options getCropOptions() {
+        UCrop.Options options = new UCrop.Options();
+        options.setCompressionQuality(70);
+        options.setHideBottomControls(false);
+        options.setFreeStyleCropEnabled(false);
+//        options.getOptionBundle();
+        options.useSourceImageAspectRatio();
+        options.setToolbarTitle("Crop Image");
+        return options;
     }
 }

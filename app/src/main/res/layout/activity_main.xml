@@ -22,8 +22,6 @@
             />
     </FrameLayout>
 
-    <!--    </com.google.android.material.appbar.AppBarLayout>-->
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationview"
         android:layout_width="300dp"
